@@ -1,0 +1,14 @@
+7 #nx
+7 #ny
+5.65 #X-FOV size (cm)
+5.65 #Y-FOV size (cm)
+4 #Radius (cm)
+0.6 #Detector size (cm)
+8 #Number of detectors
+10000000 #Initial activity (Bq)
+767232 #Half life (s)
+1.0 #Polarization (a2)
+magnetizations.raw #Magnetization vectors file
+0.00002 #Time step (s)
+12001 #Number of time steps
+unos_7x7.raw #Activity file
