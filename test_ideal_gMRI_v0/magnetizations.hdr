@@ -1,0 +1,2 @@
+dtype=float32
+shape=(7, 7, 1, 12001, 4)
