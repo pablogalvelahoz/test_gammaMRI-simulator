@@ -9,7 +9,7 @@
       n = size(x)
       i = blockDim%x * (blockIdx%x - 1) + threadIdx%x
       !print*, 'in thread:' ,i
-      if (i <= n) print*,'hello', i !y(i) = y(i) + a*x(i)
+      if (i <= n) y(i) = y(i) + a*x(i)
       end subroutine saxpy 
       end module mathOps
 
@@ -17,7 +17,7 @@
       use cudafor
       use mathOps
       !implicit none
-      integer, parameter :: N = 1 !40000
+      integer, parameter :: N = 40000
       real :: x(N), y(N), a
       real, device :: x_d(N), y_d(N)
       type(dim3) :: grid, tBlock
