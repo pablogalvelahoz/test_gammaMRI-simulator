@@ -1,7 +1,11 @@
 
       program hello_CUDA
       use cudafor
+      integer, parameter :: N = 40000
+      real :: x(N), y(N), a
+      real, device :: x_d(N), y_d(N)
+      type(dim3) :: grid, tBlock
 
-      print*,'Hello world'
+      print*,'Hello world 2'
 
       end
