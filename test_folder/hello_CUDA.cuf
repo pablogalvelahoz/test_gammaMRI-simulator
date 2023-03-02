@@ -41,4 +41,9 @@
       y = y_d
       write(*,*) 'Max error: ', maxval(abs(y-4.0))
 
+      nout=0
+      do i =1,N
+       if(abs(y(i)-4.0).lt.0.0001)nout=nout+1
+      enddo
+      print*,'nout=',nout
       end
