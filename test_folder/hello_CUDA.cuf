@@ -1,7 +1,20 @@
 
+      module mathOps
+      contains
+      attributes(global) subroutine saxpy(x, y, a)
+      implicit none
+      real :: x(:), y(:)
+      real, value :: a
+      integer :: i, n
+      n = size(x)
+      i = blockDim%x * (blockIdx%x - 1) + threadIdx%x
+      if (i <= n) y(i) = y(i) + a*x(i)
+      end subroutine saxpy 
+      end module mathOps
 
       program hello_CUDA
       use cudafor
+      use mathOps
       !implicit none
       integer, parameter :: N = 40000
       real :: x(N), y(N), a
@@ -23,5 +36,9 @@
 
       !x = y + a + x
       print*,'Data x, y, a loaded to device:',x(1),y(1),a
+
+      call saxpy<<<grid, tBlock>>>(x_d, y_d, a)
+      y = y_d
+      write(*,*) 'Max error: ', maxval(abs(y-4.0))
 
       end
