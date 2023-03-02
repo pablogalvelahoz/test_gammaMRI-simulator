@@ -1,0 +1,7 @@
+
+      program hello_CUDA
+      use cudafor
+
+      print*,'Hello world'
+
+      end
