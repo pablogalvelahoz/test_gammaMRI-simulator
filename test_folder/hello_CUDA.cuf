@@ -1,4 +1,5 @@
 
+
       program hello_CUDA
       use cudafor
       !implicit none
@@ -14,10 +15,13 @@
 
       print*,'grid, tBlock defined' 
 
-      x = 1.0; y = 2.0; a = 2.0
+      x = 1.0
+      y = 2.0
+      a = 2.0
       x_d = x
       y_d = y
 
+      !x = y + a + x
       print*,'Data x, y, a loaded to device:',x(1),y(1),a
 
       end
