@@ -14,9 +14,9 @@
       print*,'grid, tBlock defined' 
 
       x = 1.0; y = 2.0; a = 2.0
-      x_d = x
-      y_d = y
+      !x_d = x
+      !y_d = y
 
-      print*,'Data x, y, a loaded to device:',x,y,a
+      print*,'Data x, y, a loaded to device:',x(1),y(1),a
 
       end
