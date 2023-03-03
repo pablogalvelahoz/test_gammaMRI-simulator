@@ -1,7 +1,10 @@
 
       module mathOps
+      integer, parameter :: N = 40000
       integer,constant:: a_d
+      real, device :: x_d(N), y_d(N)
       contains
+
       attributes(global) subroutine saxpy(x, y, a)
       implicit none
       real :: x(:), y(:)
@@ -13,15 +16,14 @@
       !if (i <= n) y(i) = y(i) + a*x(i)
       if (i <= n) y(i) = y(i) + a_d*x(i)
       end subroutine saxpy 
+
       end module mathOps
 
       program hello_CUDA
       use cudafor
       use mathOps
       !implicit none
-      integer, parameter :: N = 40000
       real :: x(N), y(N), a
-      real, device :: x_d(N), y_d(N)
       type(dim3) :: grid, tBlock
 
       print*,'Hello CUDA'
