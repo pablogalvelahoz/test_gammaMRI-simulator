@@ -30,10 +30,12 @@
       !print*, 'in thread:' ,i
       !if (i <= n) y(i) = y(i) + a*x(i)
       if (i <= n_l) y_d(i) = y_d(i) + a_d*x_d(i)
+      if (i <= n_l) y2_d(i) = y2_d(i) + a_d*x2_d(i)
       end subroutine saxpy_noinp
 
       end module mathOps
 
+!----------hello_CUDA
       program hello_CUDA
       use cudafor
       use mathOps
@@ -56,6 +58,9 @@
       y_d = y
       a_d = a
       N_d = n
+      allocate(x2_d(n),y2_d(n))
+      x2_d = x
+      y2_d = y
 
       !x = y + a + x
       print*,'Data x, y, a loaded to device:',x(1),y(1),a
@@ -70,4 +75,13 @@
        if(abs(y(i)-4.0).lt.0.0001)nout=nout+1
       enddo
       print*,'nout=',nout
+
+      y = y2_d
+      write(*,*) 'Max error y2: ', maxval(abs(y-4.0))
+
+      nout=0
+      do i =1,N
+       if(abs(y(i)-4.0).lt.0.0001)nout=nout+1
+      enddo
+      print*,'nout y2=',nout
       end
