@@ -1,6 +1,6 @@
 
       module mathOps
-      integer, parameter :: N = 40000
+      integer, parameter :: N = 4000000
       integer,constant:: a_d
       real, device :: x_d(N), y_d(N)
       contains
