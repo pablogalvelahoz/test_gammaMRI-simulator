@@ -17,6 +17,19 @@
       if (i <= n) y(i) = y(i) + a_d*x(i)
       end subroutine saxpy 
 
+      attributes(global) subroutine saxpy_noinp(n) !(x, y, a)
+      !implicit none
+      integer,value:: n
+      !real :: x(:), y(:)
+      !real, value :: a
+      !integer :: i, n
+      !n = size(x)
+      i = blockDim%x * (blockIdx%x - 1) + threadIdx%x
+      !print*, 'in thread:' ,i
+      !if (i <= n) y(i) = y(i) + a*x(i)
+      if (i <= n) y_d(i) = y_d(i) + a_d*x_d(i)
+      end subroutine saxpy_noinp
+
       end module mathOps
 
       program hello_CUDA
@@ -27,6 +40,7 @@
       type(dim3) :: grid, tBlock
 
       print*,'Hello CUDA'
+      print*,'N=',N,size(x),size(y)
 
       tBlock = dim3(256,1,1)
       grid = dim3(ceiling(real(N)/tBlock%x),1,1)
@@ -38,12 +52,13 @@
       a = 2.0
       x_d = x
       y_d = y
-      a_d = 2.0
+      a_d = a
 
       !x = y + a + x
       print*,'Data x, y, a loaded to device:',x(1),y(1),a
 
-      call saxpy<<<grid, tBlock>>>(x_d, y_d, a)
+      !call saxpy<<<grid, tBlock>>>(x_d, y_d, a)
+      call saxpy_noinp<<<grid, tBlock>>>(n)
       y = y_d
       write(*,*) 'Max error: ', maxval(abs(y-4.0))
 
