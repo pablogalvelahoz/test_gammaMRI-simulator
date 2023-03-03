@@ -1,8 +1,8 @@
 
       module mathOps
-      integer, parameter :: N = 4000000
+      !integer, parameter :: N = 4000000
       integer,constant:: a_d,N_d
-      real, device :: x_d(N), y_d(N)
+      !real, device :: x_d(N), y_d(N)
       real, device,allocatable:: x2_d(:), y2_d(:)
       contains
 
@@ -29,7 +29,7 @@
       i = blockDim%x * (blockIdx%x - 1) + threadIdx%x
       !print*, 'in thread:' ,i
       !if (i <= n) y(i) = y(i) + a*x(i)
-      if (i <= n_l) y_d(i) = y_d(i) + a_d*x_d(i)
+      !if (i <= n_l) y_d(i) = y_d(i) + a_d*x_d(i)
       if (i <= n_l) y2_d(i) = y2_d(i) + a_d*x2_d(i)
       end subroutine saxpy_noinp
 
@@ -39,49 +39,61 @@
       program hello_CUDA
       use cudafor
       use mathOps
+      character*100 chaux
       !implicit none
-      real :: x(N), y(N), a
+      !real :: x(N), y(N), a
+      real,allocatable :: x2(:), y2(:)
+      real :: a
       type(dim3) :: grid, tBlock
 
+      call getarg(1,chaux)
+      read(chaux,*)N
+
       print*,'Hello CUDA'
-      print*,'N=',N,size(x),size(y)
+      print*,'N=',N!,size(x),size(y)
 
       tBlock = dim3(256,1,1)
       grid = dim3(ceiling(real(N)/tBlock%x),1,1)
 
       print*,'grid, tBlock defined' 
 
-      x = 1.0
-      y = 2.0
+      !x = 1.0
+      !y = 2.0
+      allocate(x2(n),y2(n))
+      print*,'size(x2), size(y2)=',size(x2),size(y2)
+      x2 = 1.0
+      y2 = 2.0
       a = 2.0
       x_d = x
       y_d = y
       a_d = a
       N_d = n
       allocate(x2_d(n),y2_d(n))
-      x2_d = x
-      y2_d = y
+      x2_d = x2
+      y2_d = y2
 
       !x = y + a + x
-      print*,'Data x, y, a loaded to device:',x(1),y(1),a
+      !print*,'Data x, y, a loaded to device:',x(1),y(1),a
+      print*,'Data x2, y2, a loaded to device:',x2(1),y2(1),a
 
       !call saxpy<<<grid, tBlock>>>(x_d, y_d, a)
       call saxpy_noinp<<<grid, tBlock>>> !(n)
-      y = y_d
-      write(*,*) 'Max error: ', maxval(abs(y-4.0))
+      !y = y_d
+      !write(*,*) 'Max error: ', maxval(abs(y-4.0))
+
+      !nout=0
+      !do i =1,N
+      ! if(abs(y(i)-4.0).lt.0.0001)nout=nout+1
+      !enddo
+      !print*,'nout=',nout
+
+      y2 = y2_d
+      write(*,*) 'Max error y2: ', maxval(abs(y2-4.0))
+      write(*,*) 'y2(:10): ', y2(:10)
 
       nout=0
       do i =1,N
-       if(abs(y(i)-4.0).lt.0.0001)nout=nout+1
-      enddo
-      print*,'nout=',nout
-
-      y = y2_d
-      write(*,*) 'Max error y2: ', maxval(abs(y-4.0))
-
-      nout=0
-      do i =1,N
-       if(abs(y(i)-4.0).lt.0.0001)nout=nout+1
+       if(abs(y2(i)-4.0).lt.0.0001)nout=nout+1
       enddo
       print*,'nout y2=',nout
       end
