@@ -13,7 +13,7 @@ act_file=$12
 ndetectors=$13
 a2=0.0 #$14
 if_reco=0
-gammaMRI_exe=gammaMRI_det_v2.x
+gammaMRI_exe=gammaMRI_det_v2kk.x
 #gammaMRI_exe=gammaMRI_det_v2_opt.x
 rm list_gammaMRI.raw
 rm prob_map_det.raw
