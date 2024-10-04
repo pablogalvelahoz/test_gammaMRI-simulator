@@ -13,8 +13,8 @@ act_file=${12}
 ndetectors=${13}
 a2=${14}
 if_reco=1
-gyro=${14}
-B0=${15}
+gyro=${15}
+B0=${16}
 gammaMRI_exe=gammaMRI_det_v3_opt.x
 #gammaMRI_exe=gammaMRI_det_v2_opt.x
 rm list_gammaMRI.raw
