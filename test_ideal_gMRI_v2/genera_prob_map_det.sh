@@ -7,15 +7,15 @@ amlife=$6
 act=$7
 det_radius=$8
 det_height=$9
-xfov=$10
-yfov=$11
-act_file=$12
-ndetectors=$13
+xfov=${10}
+yfov=${11}
+act_file=${12}
+ndetectors=${13}
 a2=0.0 
 if_reco=0
-gyro=$14
-B0=$15
-gammaMRI_exe=gammaMRI_det_v3.x
+gyro=${14}
+B0=${15}
+gammaMRI_exe=gammaMRI_det_v3_opt.x
 #gammaMRI_exe=gammaMRI_det_v2_opt.x
 rm list_gammaMRI.raw
 rm prob_map_det.raw
